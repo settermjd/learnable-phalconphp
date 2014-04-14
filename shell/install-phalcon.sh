@@ -6,13 +6,14 @@ if [ -d cphalcon ]; then
     cd cphalcon; git pull; cd -;
 else
     echo Cloning Phalcon Repository
-    git clone --depth=1 git://github.com/phalcon/cphalcon.git
+    git clone --depth=1 https://github.com/phalcon/cphalcon.git
 fi;
 
 if [ -d cphalcon ]; then
 
     # check if Phalcon's already available
-    if [ $( php -r 'print_r(extension_loaded("phalcon"));' ) -eq 0 ]; then
+    PHALCON_INSTALLED=$( php -r 'print ((int)extension_loaded("phalcon"));' );
+    if [ "$PHALCON_INSTALLED" -eq "0" ]; then
         echo Installing Phalcon
         cd cphalcon/build
         sudo ./install
